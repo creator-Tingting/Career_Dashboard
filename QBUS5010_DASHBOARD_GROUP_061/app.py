@@ -9,8 +9,8 @@ from components.search_area import search_area
 dash_bootstrap_components for styling, warnings for managing runtime warnings, os for file operations, openai for natural language query 
 support. The detail version is specified in requirements.txt"""
 
-client = OpenAI(
-    api_key='sk-kL9RcKREsPRiWLfBMaljZQf_bzmf8lRownTGlNO1SXT3BlbkFJ8R4XPIFog_RApCwlF55QqgyoEi-0cmu2iAuJqps0AA')
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
 
 app = Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
  
@@ -162,6 +162,11 @@ def update_chat(n_clicks, user_input, chat_history):
             messages.append({"role": "user", "content": user_input})
 
             # Call OpenAI API to generate a response
+            if client is None:
+                chat_history += f'User: {user_input}\n'
+                chat_history += 'ChatGPT: (Chat feature is disabled — no OpenAI API key configured.)\n'
+                return chat_history
+    
             response = client.chat.completions.create(model='gpt-4', messages=messages)
             assistant_reply = response.choices[0].message.content
 
