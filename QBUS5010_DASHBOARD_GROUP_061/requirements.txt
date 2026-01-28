@@ -1,0 +1,6 @@
+openai==1.52.0
+dash==2.18.1
+dash-core-components==2.0.0
+dash-html-components==2.0.0
+dash-bootstrap-components==1.6.0
+pandas==2.2.2
