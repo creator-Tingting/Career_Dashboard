@@ -180,7 +180,8 @@ def update_chat(n_clicks, user_input, chat_history):
 
 
 
+
 import os
 
 if __name__ == "__main__":
-    app.run_server(debug=False)
+    app.run_server(host="0.0.0.0", port=int(os.environ.get("PORT", 8050)), debug=False)
